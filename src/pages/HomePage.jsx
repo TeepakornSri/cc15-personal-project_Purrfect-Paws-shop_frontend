@@ -1,5 +1,13 @@
+import HomePageProductCategories from "./HomePageProductCategories";
+import HomePageHero from "./HomePageHero";
+import HomePageContent from "./HomePageContent";
+
 export default function Homepage() {
     return (
-        <h1>Homepage</h1>
+        <div>
+            <HomePageHero />
+            <HomePageProductCategories />
+            <HomePageContent />
+        </div>
     )
 }

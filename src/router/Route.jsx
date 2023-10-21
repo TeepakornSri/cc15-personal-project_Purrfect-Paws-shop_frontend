@@ -4,11 +4,11 @@ import HomePage from '../pages/HomePage'
 import RegisterPage from '../pages/RegisterPage'
 import ProductPage from '../pages/ProductPage'
 import SummaryCartPage from '../pages/summaryCart'
-import UpdateProfilePage from '../pages/UpdateProfilePage'
 import Layout from '../layout/Layout'
 import RedirectIfAuthenticated from '../features/auth/RedireactIfAuthenticated'
 import Authenticated from '../features/auth/Authenticate'
 import PaymentSubmission from '../pages/PaymentSubmissionPage'
+import EditProfile from '../pages/EditProfile'
 
 const router = createBrowserRouter([{
     path: '/',
@@ -22,7 +22,6 @@ const router = createBrowserRouter([{
                     <LoginPage />
                 </RedirectIfAuthenticated>)
         },
-        { path: 'UpdateProfile', element: <UpdateProfilePage /> },
         { path: 'product/:productId', element: <ProductPage /> },
         {
             path: 'cart', element: (
@@ -35,6 +34,11 @@ const router = createBrowserRouter([{
                 <Authenticated>
                     <PaymentSubmission />
                 </Authenticated>)
+        },
+        {
+            path: 'EditProfile', element: (
+                <EditProfile />
+            )
         },
 
 
