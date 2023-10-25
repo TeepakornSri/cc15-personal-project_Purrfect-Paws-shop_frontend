@@ -20,6 +20,7 @@ export default function Dropdown() {
             alert('Please Login');
         } else {
             alert('Successfully Logged out');
+            window.location.reload()
         }
     };
 

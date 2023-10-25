@@ -9,7 +9,9 @@ export default function HeaderBottom() {
             <span className="border border-black p-2 rounded-3xl text-sm cursor-pointer hover:bg-orange-500 hover:text-white font-semibold w-[140px] text-center">Product Catagery</span>
             <span className="border border-black p-2 rounded-3xl text-sm cursor-pointer hover:bg-orange-500 hover:text-white font-semibold w-[140px] text-center">Product Catagery</span>
             <span className="border border-black p-2 rounded-3xl text-sm cursor-pointer hover:bg-orange-500 hover:text-white font-semibold w-[140px] text-center">Product Catagery</span>
-            <span className="border border-black p-2 rounded-3xl text-sm cursor-pointer hover:bg-orange-500 hover:text-white font-semibold w-[140px] text-center">About Us</span>
+            <Link to='order'>
+                <span className="border border-black p-2 rounded-3xl text-sm cursor-pointer hover:bg-orange-500 hover:text-white font-semibold w-[140px] text-center">My Order</span>
+            </Link>
             <Link to='PaymentSubmission'>
                 <span className="border border-black p-2 rounded-3xl text-sm cursor-pointer hover:bg-orange-500 hover:text-white font-semibold ">Payment Submission</span>
             </Link>

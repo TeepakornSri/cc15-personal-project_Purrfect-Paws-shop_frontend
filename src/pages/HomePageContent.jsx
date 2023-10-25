@@ -20,13 +20,13 @@ export default function HomePageContent() {
 
 
     return (
-        <div className='flex justify-center'>
-            <div className='max-w-[1200px] h-screen items-center flex justify-center '>
-                <div className='grid grid-cols-4 gap-2 p-4'>
-                    <ProductList allProduct={allProduct} />
+        <div className='flex justify-center h-screen '>
 
-                </div>
+            <div className=' max-w-[1200px] grid grid-cols-4 gap-2 p-4 overflow-hidden overflow-y-auto '>
+                <ProductList allProduct={allProduct} />
+
             </div>
+
         </div>
     )
 }

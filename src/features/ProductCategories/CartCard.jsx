@@ -26,20 +26,24 @@ export default function CartCard({ allCartProduct }) {
     };
     const decreaseAmount = async () => {
         try {
-            const response = await axios.patch("/product/updateAmountInCart", {
-                productId: allCartProduct.product.id,
-                Id: allCartProduct.id,
-                newAmount: newAmount - 1,
-            });
+            if (newAmount === 0) {
+                alert('Amount cannot below 0')
+                return
+            } else {
+                setNewAmount(newAmount - 1);
+                const response = await axios.patch("/product/updateAmountInCart", {
+                    productId: allCartProduct.product.id,
+                    Id: allCartProduct.id,
+                    newAmount: newAmount - 1,
 
-            if (response.status === 200) {
-                alert("Amount updated successfully");
+                });
+
             }
             window.location.reload()
         } catch (error) {
             console.log(error);
         }
-        setNewAmount(newAmount - 1);
+
     };
 
 

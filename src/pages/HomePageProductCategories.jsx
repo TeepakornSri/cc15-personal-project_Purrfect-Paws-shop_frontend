@@ -6,8 +6,8 @@ import ProductImg from '../assets/Productimg.png'
 export default function HomePageContent() {
     return (
 
-        <div className='mt-10 mb-80'>
-            <div className='items-center flex justify-center mb-6 text-3xl font-semibold'>
+        <div className='mt-10 '>
+            <div className='items-center flex justify-center mb-6 text-4xl font-bold'>
                 <h1 className='text-orange-500'>Product Categories</h1>
             </div>
             <div className='flex justify-evenly'>

@@ -17,8 +17,11 @@ export default function PaymentSubmission() {
             const formData = new FormData()
             formData.append('paymentsubmission', input)
             setLoading(true)
-            await uploadPayment(formData)
+            const res = await uploadPayment(formData)
 
+            if (res.status === 200) {
+                alert('Upload Successfully')
+            }
 
         } catch (err) {
             console.log(err)

@@ -53,6 +53,7 @@ export default function Updateprofile() {
         updateprofile(input).catch(err => {
             toast.error(err.response.data.message)
         })
+        window.location.reload()
         alert('Profile Updated!')
     }
     return (

@@ -53,10 +53,16 @@ export default function AuthContextProvider({ children }) {
             alert('Upload Successfully')
         }
     }
+    const uploadproductimg = async (data) => {
+        const res = await axios.patch('/product/uploadproductimg', data)
+        if (res.status === 200) {
+            alert('Upload Successfully')
+        }
+    }
 
     const checkOut = async () => {
         try {
-            const res = await axios.post('/product/createorder')
+            const res = await axios.patch('/product/createorder')
             if (res.status === 200) {
                 alert('CheckOut!!')
             }
@@ -65,7 +71,7 @@ export default function AuthContextProvider({ children }) {
         }
     }
 
-    return <AuthContext.Provider value={{ login: login, authUser, initialLoading, register, logout, updateprofile, showallproduct, uploadPayment, checkOut }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ login: login, authUser, initialLoading, register, logout, updateprofile, showallproduct, uploadPayment, checkOut, uploadproductimg }}>{children}</AuthContext.Provider>
 }
 
 

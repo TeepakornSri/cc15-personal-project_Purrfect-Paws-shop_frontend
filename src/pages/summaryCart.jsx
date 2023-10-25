@@ -12,6 +12,7 @@ export default function SummaryCartPage() {
             .get('/product/productincart')
             .then(res => {
                 setAllCartProduct(res.data.showcart);
+                console.log(res.data.showcart)
                 setAllTotal(res.data.total.toFixed(2))
 
             })
@@ -21,21 +22,27 @@ export default function SummaryCartPage() {
     }, []);
 
     const handleCheckOut = async () => {
-        try {
-            const response = await axios.post('/product/createorder', { allCartProduct })
+        if (allCartProduct.length === 0) {
+            alert('Select Product First')
+        } else {
+            try {
+                const response = await axios.post('/product/createorder', { allCartProduct })
 
-            if (response.status === 200) {
-                alert('CheckOut!!')
+                if (response.status === 200) {
+                    alert('CheckOut!!')
+                }
+
+
+            } catch (err) {
+                console.log(err)
             }
-
-
-        } catch (err) {
-            console.log(err)
         }
+
+
     }
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 h-screen">
             <div className="container mx-auto py-10 flex flex-col items-center">
                 <h1 className="text-4xl font-semibold text-center mb-6">Ready to Checkout?</h1>
                 <div className="flex justify-center">
