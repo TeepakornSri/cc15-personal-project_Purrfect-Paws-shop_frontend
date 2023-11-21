@@ -1,6 +1,8 @@
 import axios from '../../config/axios';
 import Joi from 'joi';
 import { useRef, useState } from 'react';
+import Swal from 'sweetalert2'
+import Loading from '../../components/Loading';
 
 const updateSchema = Joi.object({
     productName: Joi.string().trim().required(),
@@ -14,12 +16,13 @@ export default function AdminProductCard({ allProduct }) {
     const [file, setFile] = useState(null)
     const inputEl = useRef(null)
     const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [input, setInput] = useState({
-        productName: '',
-        productImg: '',
-        productdescription: '',
-        price: '',
-        categoryId: '',
+        productName: allProduct.productName,
+        productImg: allProduct.productImg,
+        productdescription: allProduct.productdescription,
+        price: allProduct.price,
+        categoryId: allProduct.categoryId,
     });
 
     const validateEditProduct = input => {
@@ -55,13 +58,30 @@ export default function AdminProductCard({ allProduct }) {
                 return setError(validationError);
             }
             setError({});
+            setLoading(true);
             const response = await axios.patch(`/product/updateproduct/${allProduct.id}`, formData);
             if (response.status === 201) {
-                alert('Product Updated');
-                window.location.reload();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product Updated",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             }
         } catch (err) {
-            console.log(err);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Oops Something wrong...",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -97,6 +117,7 @@ export default function AdminProductCard({ allProduct }) {
                 </button>
                 {isOpen && (
                     <form onSubmit={handleSubmitEditProduct}>
+                        {loading && <Loading />}
                         <div className="h-[430px] w-[800px] absolute right-12 top-5 rounded-xl shadow-xl flex flex-col gap-2 border">
                             <div className="p-4">
                                 <h1>Edit Product</h1>

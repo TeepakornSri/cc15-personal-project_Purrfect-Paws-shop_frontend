@@ -29,12 +29,14 @@ const validateEdit = input => {
 
 
 
+
 export default function Updateprofile() {
+    const { authUser } = useAuth()
     const [input, setInput] = useState({
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        address: '',
+        firstName: authUser.firstName,
+        lastName: authUser.lastName,
+        phoneNumber: authUser.phoneNumber,
+        address: authUser.address,
     })
     const [error, setError] = useState({})
 
@@ -53,8 +55,6 @@ export default function Updateprofile() {
         updateprofile(input).catch(err => {
             toast.error(err.response.data.message)
         })
-        window.location.reload()
-        alert('Profile Updated!')
     }
     return (
         <form className="grid grid-cols-2 gap-x-3 gap-y-4" onSubmit={handleSubmitForm}>

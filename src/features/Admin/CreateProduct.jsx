@@ -1,7 +1,9 @@
 
 import axios from '../../config/axios';
 import Joi from 'joi'
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import Swal from 'sweetalert2'
+import Loading from '../../components/Loading';
 
 
 const CreateSchema = Joi.object({
@@ -29,7 +31,20 @@ export default function CreateProduct() {
 
     const [file, setFile] = useState(null)
     const inputEl = useRef(null)
+    const [loading, setLoading] = useState(false);
+    const [AllCategory, setAllCategory] = useState([]);
 
+    useEffect(() => {
+        axios
+            .get('/product/allcategory')
+            .then(res => {
+                setAllCategory(res.data.categories);
+                console.log(res.data.categories)
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
 
     const [input, setInput] = useState({
         productName: '',
@@ -49,35 +64,60 @@ export default function CreateProduct() {
 
     const handleSubmitCreateProduct = async (e) => {
         try {
-            e.preventDefault()
-            const validationError = validateCreateProduct(input)
-            const formData = new FormData()
-            formData.append("productName", input.productName)
-            formData.append("productImg", input.productImg)
-            formData.append("price", input.price)
-            formData.append("productdescription", input.productdescription)
-            formData.append("categoryId", input.categoryId)
+            e.preventDefault();
+            const validationError = validateCreateProduct(input);
+            const formData = new FormData();
+            formData.append("productName", input.productName);
+            formData.append("productImg", input.productImg);
+            formData.append("price", input.price);
+            formData.append("productdescription", input.productdescription);
+            formData.append("categoryId", input.categoryId);
+
             if (validationError) {
-                console.log(validationError)
-                return setError(validationError)
+                console.log(validationError);
+                setError(validationError);
+                return;
             }
-            setError({})
+
+            setError({});
+            setLoading(true);
+
             const response = await axios.post('/product', formData);
+
             if (response.status === 200) {
-                alert('Product Create');
-                window.location.reload()
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             }
         } catch (err) {
-            console.log(err);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Oops Something wrong...",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } finally {
+            setLoading(false);
         }
-    }
+    };
+
 
 
 
     return (
-        <form onSubmit={handleSubmitCreateProduct} className='p-6'>
-            <h1 className='text-xl text-center font-semibold'>Create Product</h1>
 
+        <form onSubmit={handleSubmitCreateProduct} className='p-6'>
+
+            <h1 className='text-xl text-center font-semibold'>Create Product</h1>
+            {loading && <Loading />}
             <div className='flex flex-col gap-4 justify-start items-start p-2'>
                 <input type='text'
                     placeholder='productName'
@@ -132,18 +172,26 @@ export default function CreateProduct() {
                             : "focus:ring-blue-300  focus:border-blue-500 border-gray-300"
                         }
                `} />
-                <input type='text'
-                    placeholder='categoryId'
-                    value={input.categoryId}
-                    onChange={handleChangeInput}
-                    name='categoryId'
-                    className={`block w-full border rounded-md px-3 py-1.5 text-sm outline-none
-               focus:ring
-               ${error.categoryId
-                            ? "border-red-500 focus:ring-red-300"
-                            : "focus:ring-blue-300  focus:border-blue-500 border-gray-300"
-                        }
-               `} />
+                <div className="p-1 w-60 flex flex-col gap-2 mb-8">
+                    <h1 className='text-base'>Select Catagory</h1>
+                    <select
+                        className="flex items-start flex-col cursor-pointer border border-stone-300 p-1 text-base"
+                        onChange={handleChangeInput}
+                        value={input.categoryId}
+                        name="categoryId"
+                    >
+                        {AllCategory.map((el) => {
+                            return (
+                                <option
+                                    key={el.id}
+                                    name="categoryId"
+                                    value={el.id}
+                                    label={`id ${el.id} ${el.productCategory}`}
+                                ></option>
+                            );
+                        })}
+                    </select>
+                </div>
 
             </div>
             <div className="mx-auto col-span-full">

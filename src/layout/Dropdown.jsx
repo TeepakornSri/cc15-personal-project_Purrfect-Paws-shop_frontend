@@ -3,6 +3,7 @@ import ProfileImage from '../assets/blank.png';
 import { BsArrowBarRight, BsArrowBarLeft } from 'react-icons/bs';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/use-auth';
+import Swal from 'sweetalert2'
 
 
 
@@ -19,13 +20,20 @@ export default function Dropdown() {
         if (authUser === null) {
             alert('Please Login');
         } else {
-            alert('Successfully Logged out');
-            window.location.reload()
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Log out",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         }
     };
 
     useEffect(() => {
-
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsOpen(false);
@@ -33,7 +41,6 @@ export default function Dropdown() {
         }
 
         document.addEventListener('mousedown', handleClickOutside);
-
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -56,20 +63,23 @@ export default function Dropdown() {
                                 <div className="font-semibold text-base text-black">Login</div>
                             </div>
                         </Link>
-                    ) : <div className='text-black text-lg font-medium flex mt-4 p-2 rounded-3xl hover:bg-gray-300 cursor-pointer'>
-                        <Link to='EditProfile'>
-                            <div className='pl-4'>
-                                Hello, {authUser.firstName} {authUser.lastName}
-                            </div>
-                        </Link>
-                    </div>
-                    }
-                    <div className="flex gap-4 p-2 items-center cursor-pointer hover:bg-gray-300 rounded-3xl" onClick={handleLogout}>
-                        <div className="bg-gray-100 text-black text-base h-9 aspect-square rounded-full flex items-center justify-center">
-                            <BsArrowBarLeft />
+                    ) : (
+                        <div className='text-black text-lg font-medium flex mt-4 p-2 rounded-3xl hover:bg-gray-300 cursor-pointer'>
+                            <Link to='EditProfile'>
+                                <div className='pl-4'>
+                                    Hello, {authUser.firstName} {authUser.lastName}
+                                </div>
+                            </Link>
                         </div>
-                        <div className="font-semibold text-base text-black">Log Out</div>
-                    </div>
+                    )}
+                    {authUser !== null && (
+                        <div className="flex gap-4 p-2 items-center cursor-pointer hover:bg-gray-300 rounded-3xl" onClick={handleLogout}>
+                            <div className="bg-gray-100 text-black text-base h-9 aspect-square rounded-full flex items-center justify-center">
+                                <BsArrowBarLeft />
+                            </div>
+                            <div className="font-semibold text-base text-black">Log Out</div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

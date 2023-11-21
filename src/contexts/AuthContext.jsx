@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import axios from '../config/axios'
 import { addAccessToken, getAccessToken, removeAccessToken } from "../utils/local-storage";
+import Swal from 'sweetalert2'
 
 export const AuthContext = createContext()
 
@@ -28,6 +29,15 @@ export default function AuthContextProvider({ children }) {
 
     const register = async registerInputObject => {
         const res = await axios.post('/auth/register', registerInputObject)
+        if (res.status === 201) {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Register success",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
         addAccessToken(res.data.accessToken)
         setAuthUser(res.data.user)
     }
@@ -39,6 +49,26 @@ export default function AuthContextProvider({ children }) {
 
     const updateprofile = async updateprofileInputObject => {
         const res = await axios.patch('/auth/updateprofile', updateprofileInputObject)
+        if (res.status === 201) {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "success",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } else {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Oops Something wrong...",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
         setAuthUser(res.data.user)
     }
 
@@ -50,13 +80,31 @@ export default function AuthContextProvider({ children }) {
     const uploadPayment = async (data) => {
         const res = await axios.patch('/product/uploadImg', data)
         if (res.status === 200) {
-            alert('Upload Successfully')
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "success",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         }
     }
     const uploadproductimg = async (data) => {
         const res = await axios.patch('/product/uploadproductimg', data)
         if (res.status === 200) {
-            alert('Upload Successfully')
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "success",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         }
     }
 
@@ -64,10 +112,25 @@ export default function AuthContextProvider({ children }) {
         try {
             const res = await axios.patch('/product/createorder')
             if (res.status === 200) {
-                alert('CheckOut!!')
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Checkout success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             }
         } catch (err) {
-            console.log(err)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Oops Something wrong...",
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
     }
 

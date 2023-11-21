@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "../config/axios";
 import CartList from '../features/ProductCategories/CartList';
 import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export default function SummaryCartPage() {
     const [allCartProduct, setAllCartProduct] = useState([]);
@@ -23,13 +24,25 @@ export default function SummaryCartPage() {
 
     const handleCheckOut = async () => {
         if (allCartProduct.length === 0) {
-            alert('Select Product First')
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Select Product First",
+                showConfirmButton: false,
+                timer: 1500
+            });
         } else {
             try {
                 const response = await axios.post('/product/createorder', { allCartProduct })
 
                 if (response.status === 200) {
-                    alert('CheckOut!!')
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Checkout Success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
 
 

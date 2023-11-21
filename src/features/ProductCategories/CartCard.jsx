@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "../../config/axios";
 import { BiTrash } from "react-icons/bi";
+import Swal from 'sweetalert2'
 
 export default function CartCard({ allCartProduct }) {
     const [newAmount, setNewAmount] = useState(allCartProduct.amount);
@@ -15,9 +16,6 @@ export default function CartCard({ allCartProduct }) {
                 newAmount: newAmount + 1,
             });
 
-            if (response.status === 200) {
-                alert("Amount updated successfully");
-            }
             window.location.reload()
         } catch (error) {
             console.log(error);
@@ -27,7 +25,13 @@ export default function CartCard({ allCartProduct }) {
     const decreaseAmount = async () => {
         try {
             if (newAmount === 0) {
-                alert('Amount cannot below 0')
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Amount cannot below 0",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 return
             } else {
                 setNewAmount(newAmount - 1);
@@ -53,9 +57,17 @@ export default function CartCard({ allCartProduct }) {
             const response = await axios.delete(`/product/deleteProductInCart/${allCartProduct.id}`);
             if (response.status === 200) {
 
-                alert("Deleted Product In Cart");
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Deleted Product In Cart",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             }
-            window.location.reload()
         } catch (err) {
             console.log(err);
         }

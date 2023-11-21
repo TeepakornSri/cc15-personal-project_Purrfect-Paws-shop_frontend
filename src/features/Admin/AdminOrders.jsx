@@ -30,7 +30,7 @@ export default function AdminOrders() {
 
 
     return (
-        <div className="flex flex-col w-full mt-4 max-h-screen">
+        <div className="flex flex-col w-full mt-4 max-h-[900px] overflow-y-auto ">
             <div className="flex w-full flex-col p-4">
                 <h1 className="text-2xl font-semibold p-4">Orders</h1>
                 <AdminOrderList allOrder={allOrder} />

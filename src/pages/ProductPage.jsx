@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "../config/axios";
+import Swal from 'sweetalert2'
 import Loading from "../components/Loading";
 
 export default function ProductPage() {
@@ -42,7 +43,14 @@ export default function ProductPage() {
             const response = await axios.post(`/product/addToCart/${product.id}`, { amount });
 
             if (response.status === 200) {
-                alert('Product Add To Cart');
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product Add To Cart",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         } catch (error) {
             console.error(error);
